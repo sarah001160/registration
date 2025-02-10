@@ -4,13 +4,12 @@ import {
   getDocFood, addToArray,
   removeFromArray
 } from '@/stores/useFireStore';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'; // 提示訊息 alert
 
 const allDocsList = reactive([]);
 const foodList = reactive([]);
 const name = ref('');
 const seats = ref('');
-const allUsers = reactive([]);
 
 const getAllDocsTest02 = async () => {
   // test:lodaing開始
