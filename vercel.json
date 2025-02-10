@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/firebase02/(.*)",
-      "destination": "/firebase02/index.html"
+      "source": "/registration/(.*)",
+      "destination": "/registration/index.html"
     }
   ]
 }

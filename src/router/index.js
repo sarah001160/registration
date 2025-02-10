@@ -30,7 +30,7 @@ const routes = [
 
 // 創建路由實例
 const router = createRouter({
-  history: createWebHistory('/firebase02/'),
+  history: createWebHistory('/registration/'),
   routes, // 路由配置
 });
 
