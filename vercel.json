@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/firebase02/(.*)",
+      "destination": "/firebase02/index.html"
+    }
+  ]
+}
