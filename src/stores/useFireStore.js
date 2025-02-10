@@ -3,8 +3,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import { collection, addDoc, getDocs, getDoc, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';//test
 // collection 指定文件路徑
 // addDoc 新增文件
@@ -39,6 +38,37 @@ const COLLECTION_TEST02 = ref('test02'); // 集合
 const COLLECTION_USERS = ref('users'); // 集合
 const DOCUMENT_FOOD = ref('food'); // 文件
 const DOCUMENT_NOTES = ref('notes'); // 文件
+const auth = getAuth();
+const currentUser = ref(null); // 用戶狀態
+// 登入test 請記得安裝dompurify
+const login = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log('User logged in:', userCredential.user);// test之後記得刪掉喔
+  } catch (error) {
+    console.error('Error logging in:', error);
+  }
+};
+
+// 登出
+const logout = async () => {
+  try {
+    await signOut(auth);
+    console.log('User logged out');
+    // test todo:跳轉到後台dashboard頁
+  } catch (error) {
+    console.error('Error logginh out:', error);
+  }
+};
+
+// 監聽用戶的登入狀態變化
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    currentUser.value = user.emailVerified;  // 用戶是否已登入(email是否已驗證)
+  } else {
+    currentUser.value = null;  // 用戶未登入，設為 null
+  }
+});
 
 // 制式寫法 https://firebase.google.com/docs/firestore/quickstart?authuser=0&hl=zh#web_8
 // 讀取 test02 集合內所有文件
@@ -85,8 +115,6 @@ const getDocNote = async () => {
   }
 }
 
-
-// 更新資料(測試OK)
 // 如要更新文件的部分欄位，但不覆寫整個文件，請使用下列特定語言的 update() 方法：
 const addToArray = async ({ para }) => {
   const docRef = doc(db, COLLECTION_TEST02.value, DOCUMENT_FOOD.value); // 指定文件路徑: test02 集合名稱、food 文件名稱
@@ -156,8 +184,9 @@ const removeFromArray = async (item) => {
 }
 
 export {
-  db,
+  db, auth, currentUser,
   getAllDocFrTest02, getDocFood, getAllDocFrUsers, getDocNote,
   addToArray, addNewFile, addToContentList,
-  removeFromArray
+  removeFromArray,
+  login, logout,
 }

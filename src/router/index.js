@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
+//import { onAuthStateChanged } from 'firebase/auth';
+import { auth, currentUser } from '@/stores/useFireStore';
 
 // 你的頁面組件
 import HomeView from '@/views/HomeView.vue';
@@ -8,12 +10,13 @@ const routes = [
   {
     name: 'home',
     path: '/',
-    component: HomeView
+    component: HomeView,
   },
   {
     name: 'data',
     path: '/data',
-    component: () => import('@/views/DataView.vue')
+    component: () => import('@/views/DataView.vue'),
+    meta: { requiresAuth: true }  // 需驗證 
   },
   {
     name: 'note',
@@ -32,6 +35,19 @@ const routes = [
 const router = createRouter({
   history: createWebHistory('/registration/'),
   routes, // 路由配置
+});
+
+// 路由守衛
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    if (currentUser.value) {
+      next();
+    } else {
+      next({ path: '/login' });
+    }
+  } else {
+    next();  // 不需要驗證的路由直接放行
+  }
 });
 
 export default router;

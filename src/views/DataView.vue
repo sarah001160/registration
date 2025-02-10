@@ -10,24 +10,24 @@ const allDocsList = reactive([]);
 const foodList = reactive([]);
 const name = ref('');
 const seats = ref('');
+const isLoading = ref(false);
 
 const getAllDocsTest02 = async () => {
-  // test:lodaing開始
-  console.log('loading中')
+  isLoading.value = true;
   const result = await getAllDocFrTest02();
   allDocsList.push(...result);
-  // test:loading結束
-  console.log('loading end')
+  isLoading.value = false;
   console.log('所有文件', allDocsList);
 }
 
 const getFood = async () => {
+  isLoading.value = true;
   // clear 上一次狀態
   foodList.length = 0;
-
   const result = await getDocFood();
   foodList.push(...result);
   console.log('food', foodList)
+  isLoading.value = false;
 }
 
 // 寫入food 文件
@@ -49,7 +49,6 @@ const submit = () => {
       confirmButtonText: '確認',
       confirmButtonColor: '#3B82F6'
     });
-
   } else {
     addToFood();
     getFood();
@@ -73,6 +72,9 @@ onMounted(async () => {
 <template>
   <div class="max-w-xl mx-auto p-6">
     <h1 class="mb-4">口袋餐廳 (集合的名稱:test02)</h1>
+    <div v-if="isLoaing" class="absolute inset-0 flex items-center justify-center">
+      <span class="loading loading-ring loading-lg"></span>
+    </div>
     <div class="grid grid-cols-12 gap-2 items-end">
       <div class="col-span-5">
         <label for="name"><small class="text-gray-400">餐廳名稱</small></label>
