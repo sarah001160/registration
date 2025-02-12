@@ -1,11 +1,33 @@
 <script setup>
 import { login } from '@/stores/useFireStore';
+import loginImg from '@/assets/login.jpg';
+import Swal from 'sweetalert2';
+import { useRouter } from 'vue-router'; // 引入 useRouter
+const router = useRouter(); // 建立 router 實例
 const email = ref('');
 const pwd = ref('');
 let isPwd = ref(true); // true 密碼、false 文字
-const loginSubmit = () => {
-  login(email.value, pwd.value);//test
-  // test todo 要記得跳轉網址
+const loginSubmit = async () => {
+  const result = await login(email.value, pwd.value);
+  if (result) {
+    Swal.fire({
+      icon: 'success',
+      title: '登入成功!',
+      confirmButtonText: '確認',
+      confirmButtonColor: '#3B82F6'
+    });
+    // 跳轉
+    await router.push({ name: 'data' })
+  } else {
+    // alert Email或密碼錯誤
+    Swal.fire({
+      icon: 'warning',
+      title: '請確認 Email 或密碼是否正確',
+      confirmButtonText: '確認',
+      confirmButtonColor: '#3B82F6'
+    });
+  }
+
 }
 const togglePwd = () => {
   isPwd.value = !isPwd.value;
@@ -19,7 +41,7 @@ const togglePwd = () => {
       <!--左側-->
       <div class="col-span-12 lg:col-span-7 lg:p-2 rounded-md h-[20vh] md:h-[90vh] rounded-r-md overflow-hidden">
         <!--測試-->
-        <img src="https://picsum.photos/id/517/800/600" alt="Sample Image" loading="lazy"
+        <img :src="loginImg" alt="Sample Image" loading="lazy"
           class="responsive-img w-full h-full object-cover rounded-md" />
       </div>
       <!--右側-->

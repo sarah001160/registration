@@ -1,9 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router';
-//import { onAuthStateChanged } from 'firebase/auth';
-import { auth, currentUser } from '@/stores/useFireStore';
-
+import { auth } from '@/stores/useFireStore';
+import { onAuthStateChanged } from 'firebase/auth';
 // 你的頁面組件
 import HomeView from '@/views/HomeView.vue';
+
+let currentUser = ref(null);
+const checkAuthState = () => {
+  return new Promise((resolve) => {
+    if (currentUser.value !== null) {
+      resolve(currentUser.value);
+    } else {
+      onAuthStateChanged(auth, (user) => {
+        currentUser.value = user;  // 若回傳 null 表示未登入
+        resolve(user);
+      });
+    }
+  })
+}
 
 // 定義路由
 const routes = [
@@ -39,14 +52,16 @@ const router = createRouter({
 
 // 路由守衛
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    if (currentUser.value) {
-      next();
-    } else {
-      next({ path: '/login' });
-    }
+  if (!to.meta.requiresAuth) {
+    next(); // 不需要驗證的路由直接放行
   } else {
-    next();  // 不需要驗證的路由直接放行
+    checkAuthState().then((user) => {
+      if (user) {
+        next(); // 用戶已登入，放行
+      } else { // 未登入，導向登入頁
+        next({ path: '/login' })
+      }
+    });
   }
 });
 

@@ -44,9 +44,11 @@ const currentUser = ref(null); // 用戶狀態
 const login = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log('User logged in:', userCredential.user);// test之後記得刪掉喔
+    const user = userCredential.user;
+    return user.emailVerified;
   } catch (error) {
     console.error('Error logging in:', error);
+    return false;
   }
 };
 
@@ -55,7 +57,6 @@ const logout = async () => {
   try {
     await signOut(auth);
     console.log('User logged out');
-    // test todo:跳轉到後台dashboard頁
   } catch (error) {
     console.error('Error logginh out:', error);
   }
@@ -64,7 +65,7 @@ const logout = async () => {
 // 監聽用戶的登入狀態變化
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    currentUser.value = user.emailVerified;  // 用戶是否已登入(email是否已驗證)
+    currentUser.value = user;  // 用戶是否已登入(email是否已驗證)
   } else {
     currentUser.value = null;  // 用戶未登入，設為 null
   }
