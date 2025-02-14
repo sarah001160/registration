@@ -33,10 +33,9 @@ const togglePwd = () => {
   isPwd.value = !isPwd.value;
 }
 
-// 切換 pwd eye
 </script>
 <template>
-  <div>
+  <div class="max-w-6xl mx-auto">
     <section class="grid grid-cols-12 rounded-md h-0 lg:h-full bg-gray-50">
       <!--左側-->
       <div class="col-span-12 lg:col-span-7 lg:p-2 rounded-md h-[20vh] md:h-[90vh] rounded-r-md overflow-hidden">
