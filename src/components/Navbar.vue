@@ -10,7 +10,7 @@ const handleLogout = async () => {
 </script>
 <template>
   <div class="bg-gray-100">
-    <div class="navbar  max-w-6xl mx-auto">
+    <div class="navbar max-w-7xl mx-auto">
       <div class="flex-none">
         <div class="drawer">
           <input id="my-drawer" type="checkbox" class="drawer-toggle" />
