@@ -53,19 +53,65 @@ const addToCoLtdList = async () => {
   }
   await addToCoLtdRequiredItem({ config });
 }
-// test
-const openAddNew = () => {
+// 打開燈箱-新增
+const openAddNewModal = () => {
   addNew_modal.showModal();
 }
-const addNewItem = () => {
-  console.log(addNewTitle.value)
-  console.log(addNewContent.value)
+// 送出新增
+const addNewItem = async () => {
+  // 防呆
+  if (addNewTitle.value.trim() == '') {
+    Swal.fire({
+      icon: 'warning',
+      title: '標題不可空白!',
+      confirmButtonText: '確認',
+      confirmButtonColor: '#3B82F6'
+    });
+    return;
+  };
+  const timeStamp = Math.floor(new Date() / 1000);
+  const tempArr = addNewContent.value?.split('\n').filter(item => item.trim() !== '');
+  // 組參數
+  const config = {
+    doc: 'coLtd',
+    para: {
+      id: timeStamp,
+      title: addNewTitle.value,
+      items: tempArr,
+    }
+  }
+  const result = await editCoLtdRequiredItem({ config });// 新增、編輯用同一個方法
+  if (result) {
+    await getCoLtdList();
+    Swal.fire({
+      icon: 'success',
+      title: '新增成功!',
+      confirmButtonText: '確認',
+      confirmButtonColor: '#3B82F6'
+    });
+  } else {
+    Swal.fire({
+      icon: 'warning',
+      title: '新增失敗!',
+      confirmButtonText: '確認',
+      confirmButtonColor: '#3B82F6'
+    });
+  }
+  selectItem(config.para);
+  // clear
+  addNewTitle.value = '';
+  addNewContent.value = '';
 }
-
-//---
+// 關閉燈箱-新增
+const closeAddNewModal = () => {
+  // clear
+  addNewTitle.value = '';
+  addNewContent.value = '';
+}
 
 // click 左側選項，給右側預覽
 const selectItem = (item) => {
+  console.log('n', item, 'currentItem', currentItem.value)
   currentItem.value = item;
   currentName.value = item.title;
   content.value = item.items;
@@ -78,6 +124,7 @@ const handleEdit = () => {
 }
 // 更新編輯
 const updateEdit = async () => {
+  // 防呆
   if (modalTitle.value.trim() == '') {
     Swal.fire({
       icon: 'warning',
@@ -97,10 +144,33 @@ const updateEdit = async () => {
       items: modalContent.value, // 編輯的內容
     }
   }
-  await editCoLtdRequiredItem({ config });
-  await getCoLtdList();
-  selectItem(config.para);
-  mode.value = 'read';
+  const result = await editCoLtdRequiredItem({ config });
+  if (result) {
+    await getCoLtdList();
+    Swal.fire({
+      icon: 'success',
+      title: '編輯成功!',
+      confirmButtonText: '確認',
+      confirmButtonColor: '#3B82F6'
+    }).then((result) => {
+      // 點確認後，要做的事情
+      if (result.isConfirmed) {
+      } else if (result.isDenied) {
+        // do nothing
+      }
+    });
+    mode.value = 'read';
+    selectItem(config.para);
+
+  } else {
+    Swal.fire({
+      icon: 'warning',
+      title: '編輯失敗!',
+      confirmButtonText: '確認',
+      confirmButtonColor: '#3B82F6'
+    });
+    mode.value = 'read';
+  }
 }
 // 取消更新
 const cancelEdit = () => {
@@ -155,17 +225,16 @@ onMounted(async () => {
         <div class="col-span-3 bg-gray-100 border rounded-md px-2 max-h-screen">
           <div class="flex items-end w-full p-3 pl-4 justify-between border-b-2">
             <small class="block text-grey-100">項目({{ coLtdList.length }})</small>
-            <a href="#" @click.prevent="openAddNew"
-              class="block w-6 h-6  text-center rounded-full bg-gray-300 hover:bg-blue-200">
+            <a href="#" @click.prevent="openAddNewModal"
+              class="block w-6 h-6  text-center rounded-full transition-all hover:bg-blue-200">
               <i class="ri-add-fill"></i>
             </a>
           </div>
-          <!--test-->
           <div class="h-[90vh] overflow-y-auto p-2">
             <div v-for="(n, index) in coLtdList" :key="index">
               <div class=" hover:text-blue-500 text-sm">
                 <a class="cursor-pointer block rounded-md w-full p-2 mb-1" @click="selectItem(n)"
-                  :class="[currentName == n.title ? 'text-blue-500 font-bold bg-blue-100' : '']">{{
+                  :class="[currentItem.id == n.id ? 'text-blue-500 font-bold bg-blue-100' : '']">{{
                     (index + 1) }}.{{ n.title }}</a>
               </div>
             </div>
@@ -244,19 +313,17 @@ onMounted(async () => {
           <label class="form-control w-full">
             <div class="label">
               <span class="label-text font-bold">應備文件
-                <small class="pl-2 text-red-500">*一行一列。如希望文字在同一列，請勿換行。</small>
+                <small class="pl-2 text-red-500">*一行一列。按 Enter 可換列。</small>
               </span>
-
             </div>
-
             <textarea rows="10" class="overflow-y-scroll my-1 textarea textarea-bordered textarea-lg w-full"
               v-model="addNewContent"></textarea>
           </label>
         </div>
         <div class="modal-action">
           <form method="dialog">
-            <button class="btn">取消</button>
-            <button class="btn btn-primary" @click="addNewItem">更新</button>
+            <button class="btn" @click="closeAddNewModal">取消</button>
+            <button class="btn btn-primary" @click="addNewItem">新增</button>
           </form>
         </div>
       </div>

@@ -180,8 +180,10 @@ const editCoLtdRequiredItem = async ({ config }) => {
       [config.para.id]: config.para // 屬性:值
     });
     console.log(`已更新至coLtd-${config.para.id}`);
+    return true;
   } catch (e) {
     console.error("更新文件發生錯誤: ", e);
+    return false;
   }
 }
 
