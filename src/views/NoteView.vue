@@ -4,9 +4,20 @@ import {
 } from '@/stores/useFireStore';
 import Swal from 'sweetalert2';
 
+const companyType = ref([
+  {
+    name: '股份有限公司',
+    value: 'coLtd',
+  },
+  {
+    name: '有限公司',
+    value: 'ltd',
+  }
+]);
+const currentCompanyType = ref('coLtd'); // 選擇的公司型態，值決定取回的文件doc 
+
 const addNewTitle = ref(''); // 新增-標題
 const addNewContent = ref(''); // 新增-應備文件內容
-
 const currentItem = ref(null); // 當前被選擇的項目
 const content = ref(null); // 閱讀-應備文件內容
 const currentName = ref(''); // 閱讀-當前項目
@@ -82,7 +93,6 @@ const closeAddNewModal = () => {
 
 // click 左側選項，給右側預覽
 const selectItem = (item) => {
-  console.log('n', item, 'currentItem', currentItem.value)
   currentItem.value = item;
   currentName.value = item.title;
   content.value = item.items;
@@ -178,9 +188,8 @@ onMounted(async () => {
       <div class="max-w-7xl mx-auto p-4 bg-gray-100 flex justify-start items-center rounded-md mb-2">
         <div class="flex-1 flex justify-start items-center">
           <h1 class="text-lg font-bold mr-2">公司登記應備文件</h1>
-          <select class="select select-bordered w-fit mr-2">
-            <option>股份有限公司</option>
-            <option>有限公司</option>
+          <select class="select select-bordered w-fit mr-2" v-model="currentCompanyType">
+            <option v-for="c in companyType" :value="c.value">{{ c.name }}</option>
           </select>
         </div>
         <div class="flex-0">
