@@ -30,14 +30,14 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-console.log('analytics', analytics);
 
 // 獲取 Firestore 實例
 const db = getFirestore(app);
 const COLLECTION_TEST02 = ref('test02'); // 集合
+const DOCUMENT_FOOD = ref('food'); // test02集合內的文件
 const COLLECTION_USERS = ref('users'); // 集合
-const DOCUMENT_FOOD = ref('food'); // 文件
-const DOCUMENT_NOTES = ref('notes'); // 文件
+const DOCUMENT_NOTES = ref('notes'); // users集合內的文件
+const DOC_RegistrationInfo = ref('registrationInfo'); // users集合內的文件
 const auth = getAuth();
 const currentUser = ref(null); // 用戶狀態
 // 登入test 請記得安裝dompurify
@@ -116,6 +116,19 @@ const getDocNote = async () => {
   }
 }
 
+// get users 集合 / registrationInfo 文件 / coLtd 資料
+// 可能要改成 動態決定取哪張文件 不寫死
+const getCoLtdRequiredFiles = async (docName) => {
+  const docRef = doc(db, COLLECTION_USERS.value, docName);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    return data;
+  } else {
+    console.log('沒有coLtd文件')
+  }
+}
+
 // 如要更新文件的部分欄位，但不覆寫整個文件，請使用下列特定語言的 update() 方法：
 const addToArray = async ({ para }) => {
   const docRef = doc(db, COLLECTION_TEST02.value, DOCUMENT_FOOD.value); // 指定文件路徑: test02 集合名稱、food 文件名稱
@@ -144,6 +157,22 @@ const addToContentList = async ({ para }) => {
     console.error("Error updating document: ", e);
   }
 }
+
+// 新增、更新文件至集合 users > 文件 coLtd 內 > 欄位
+const editCoLtdRequiredItem = async ({ config }) => {
+  const docRef = doc(db, COLLECTION_USERS.value, config.doc);
+  try {
+    await updateDoc(docRef, {
+      [config.para.id]: config.para // 屬性:值
+    });
+    console.log(`已更新至coLtd-${config.para.id}`);
+    return true;
+  } catch (e) {
+    console.error("更新文件發生錯誤: ", e);
+    return false;
+  }
+}
+
 
 // 測試新增文件 (OK)
 // addDoc() Add a new document with a generated id.
@@ -187,6 +216,7 @@ const removeFromArray = async (item) => {
 export {
   db, auth, currentUser,
   getAllDocFrTest02, getDocFood, getAllDocFrUsers, getDocNote,
+  getCoLtdRequiredFiles, editCoLtdRequiredItem,
   addToArray, addNewFile, addToContentList,
   removeFromArray,
   login, logout,

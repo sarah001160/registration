@@ -106,9 +106,7 @@ onMounted(async () => {
         <div class="col-span-1 p-2 text-right">
           <button type="button" @click="removeItem(item)"
             class="text-red-200 group-hover:text-red-500 hover:bg-white rounded-full px-2 pt-1 pb-0">
-            <span class="material-symbols-outlined">
-              delete
-            </span>
+            <i class="ri-delete-bin-line text-lg"></i>
           </button>
         </div>
       </div>
