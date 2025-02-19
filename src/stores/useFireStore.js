@@ -159,20 +159,7 @@ const addToContentList = async ({ para }) => {
   }
 }
 
-// 新增至集合 users > 文件 coLtd 內 > 欄位
-// updateDoc會自動判斷，已存在的欄位他會幫你更新異動的值、不存在的欄位他會幫妳新增欄位
-const addToCoLtdRequiredItem = async ({ config }) => {
-  const docRef = doc(db, COLLECTION_USERS.value, config.doc);
-  try {
-    await updateDoc(docRef, {
-      [config.para.id]: config.para // 屬性:值
-    });
-    console.log("已新增至coLtd");
-  } catch (e) {
-    console.error("Error updating document: ", e);
-  }
-}
-// 更新文件 coLtd
+// 新增、更新文件至集合 users > 文件 coLtd 內 > 欄位
 const editCoLtdRequiredItem = async ({ config }) => {
   const docRef = doc(db, COLLECTION_USERS.value, config.doc);
   try {
@@ -230,7 +217,7 @@ const removeFromArray = async (item) => {
 export {
   db, auth, currentUser,
   getAllDocFrTest02, getDocFood, getAllDocFrUsers, getDocNote,
-  getCoLtdRequiredFiles, addToCoLtdRequiredItem, editCoLtdRequiredItem,
+  getCoLtdRequiredFiles, editCoLtdRequiredItem,
   addToArray, addNewFile, addToContentList,
   removeFromArray,
   login, logout,

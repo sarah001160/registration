@@ -1,7 +1,6 @@
 <script setup>
 import {
-  addToContentList,
-  getCoLtdRequiredFiles, addToCoLtdRequiredItem, editCoLtdRequiredItem,
+  getCoLtdRequiredFiles, editCoLtdRequiredItem,
 } from '@/stores/useFireStore';
 import Swal from 'sweetalert2';
 
@@ -25,34 +24,6 @@ const getCoLtdList = async () => {
   coLtdList.push(...array);
 }
 
-//test 新增應備文件-限股份有限公司
-const addToCoLtdList = async () => {
-  const timeStamp = Math.floor(new Date() / 1000);
-  // 組參數
-  const config = {
-    doc: 'coLtd',
-    para: {
-      id: timeStamp,
-      title: "增資test",
-      items: [
-        "申請書(委託會計師或律師代理者，應另檢附委託書一份)",
-        "其他機關核准函影本(外人投資應附投資審議委員投資核准函、資金審定函；大陸地區人民、法人、團體、其他機構或其於第三地區投資之公司)",
-        "公司章程影本",
-        "發起人會議事錄影本",
-        "董事會議事錄(或董事同意書)影本",
-        "發起人名冊影本",
-        "董監事身分證明文件影本",
-        "董監事願任同意書影本（董事長應加填一份董事長願任同意書）",
-        "發起人身分證明文件影本",
-        "建物所有權人同意書影本及所有權證明文件影本(公司登記所在地之建物所有權人出具之同意書，應載明同意提供使用之公司名稱；建物為公司所自有者或檢附租賃契約影本，免附同意書。)",
-        "會計師資本額查核報告書",
-        "設立登記表二份",
-        "登記費：按其實收資本額每新臺幣四千元一元計算，而未達一千元者，以一千元計收"
-      ],
-    }
-  }
-  await addToCoLtdRequiredItem({ config });
-}
 // 打開燈箱-新增
 const openAddNewModal = () => {
   addNew_modal.showModal();
