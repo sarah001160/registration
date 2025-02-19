@@ -37,7 +37,6 @@ const COLLECTION_TEST02 = ref('test02'); // 集合
 const DOCUMENT_FOOD = ref('food'); // test02集合內的文件
 const COLLECTION_USERS = ref('users'); // 集合
 const DOCUMENT_NOTES = ref('notes'); // users集合內的文件
-const DOC_RegistrationInfo = ref('registrationInfo'); // users集合內的文件
 const auth = getAuth();
 const currentUser = ref(null); // 用戶狀態
 // 登入test 請記得安裝dompurify

@@ -34,7 +34,8 @@ const routes = [
   {
     name: 'note',
     path: '/note',
-    component: () => import('@/views/NoteView.vue')
+    component: () => import('@/views/NoteView.vue'),
+    meta: { requiresAuth: true }  // 需驗證 
   },
   // login 前台
   {

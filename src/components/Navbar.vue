@@ -2,7 +2,6 @@
 import { currentUser, logout } from '@/stores/useFireStore';
 import { useRouter } from 'vue-router'; // 引入 useRouter
 const router = useRouter(); // 建立 router 實例
-
 const handleLogout = async () => {
   await logout();
   await router.push({ name: 'home' });
@@ -32,7 +31,7 @@ const handleLogout = async () => {
                 <RouterLink to="/data" :class="{ 'text-blue-500 rounded-md': $route.path == '/data' }">
                   口袋餐廳</RouterLink>
               </li>
-              <li>
+              <li v-if="currentUser">
                 <RouterLink to="/note" :class="{ 'text-blue-500 rounded-md': $route.path == '/note' }">應備文件</RouterLink>
               </li>
 
