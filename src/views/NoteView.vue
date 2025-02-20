@@ -18,6 +18,7 @@ const companyType = ref([
 const docType = ref('coLtd'); // coLtd 股份有限公司資料、ltd 有限公司資料
 let coLtdList = reactive([]); // coLtd 應備文件取回資料
 let ltdList = reactive([]); // ltd 應備文件取回資料
+let currentNum = reactive([0]);
 // 取得股份有限公司應備文件 coLtd
 const getCoLtdList = async (docType) => {
   // 給參數:文件名稱，取回特定資料
@@ -29,7 +30,6 @@ const getCoLtdList = async (docType) => {
     ltdList.length = 0;
     const result = await getCoLtdRequiredFiles(docType); // 指定文件 ltd
     ltdList.push(...Object.values(result))
-    console.log(ltdList)
   }
 }
 // 收元件參數
@@ -44,6 +44,14 @@ async function handleAdd(config) {
       confirmButtonText: '確認',
       confirmButtonColor: '#3B82F6'
     });
+    // 紀錄編輯當下該項目的序號
+    if (docType.value == 'coLtd') {
+      const index = coLtdList.findIndex(item => item.id == config.para.id);
+      currentNum[0] = index;
+    } else if (docType.value == 'ltd') {
+      const index = ltdList.findIndex(item => item.id == config.para.id);
+      currentNum[0] = index;
+    }
   } else {
     Swal.fire({
       icon: 'warning',
@@ -64,6 +72,14 @@ async function handleUpdate(config) {
       confirmButtonText: '確認',
       confirmButtonColor: '#3B82F6'
     })
+    // 紀錄編輯當下該項目的序號
+    if (docType.value == 'coLtd') {
+      const index = coLtdList.findIndex(item => item.id == config.para.id);
+      currentNum[0] = index;
+    } else if (docType.value == 'ltd') {
+      const index = ltdList.findIndex(item => item.id == config.para.id);
+      currentNum[0] = index;
+    }
   } else {
     Swal.fire({
       icon: 'warning',
@@ -75,13 +91,14 @@ async function handleUpdate(config) {
 }
 
 watch(docType, async (newVal, oldVal) => {
-  console.log(newVal)
   await getCoLtdList(newVal)
-})
+});
+
 
 // 在組件掛載後讀取資料
 onMounted(async () => {
   await getCoLtdList(docType.value); // 預設:取得應備文件-股份有限公司
+  currentNum[0] = 0;
 });
 </script>
 <template>
@@ -102,9 +119,9 @@ onMounted(async () => {
           </a>
         </div>
       </div>
-      <noteFile v-if="docType == 'coLtd'" :list="coLtdList" :doc="'coLtd'" @addNewItem="handleAdd"
+      <noteFile v-if="docType == 'coLtd'" :num="currentNum" :list="coLtdList" :doc="'coLtd'" @addNewItem="handleAdd"
         @updateItem="handleUpdate" />
-      <noteFile v-else-if="docType == 'ltd'" :list="ltdList" :doc="'ltd'" @addNewItem="handleAdd"
+      <noteFile v-else-if="docType == 'ltd'" :num="currentNum" :list="ltdList" :doc="'ltd'" @addNewItem="handleAdd"
         @updateItem="handleUpdate" />
     </div>
   </div>

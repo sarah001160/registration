@@ -9,11 +9,15 @@ const props = defineProps({
   doc: { // 要寫入的文件是哪一支
     type: String,
     required: true,
+  },
+  num: {
+    type: Array,
+    default: () => ([0]),
   }
 })
 const emit = defineEmits(['addNewItem', 'updateItem']);
 
-const { list, doc } = props;
+const { list, doc, num } = props;
 const mode = ref('read'); // read 閱讀、edit 編輯
 const currentItem = ref({}); // 當前被選擇的項目
 const content = ref(null); // 閱讀-應備文件內容
@@ -129,9 +133,16 @@ watch(list, (newList) => {
   }
 }, { deep: true, immediate: true });
 
+watch(num, (newNum) => {
+  let index = newNum[0];
+  // 維持顯示完成編輯的那個項目
+  currentItem.value = list[index];
+  selectItem(list[index]);
+}, { immediate: true });
+
 onMounted(() => {
-  selectItem(list[0]);
   currentItem.value = list[0]
+  selectItem(list[0]);
 })
 </script>
 <template>
@@ -150,7 +161,7 @@ onMounted(() => {
           <div v-for="(n, index) in list" :key="index">
             <div class=" hover:text-blue-500 text-sm">
               <a class="cursor-pointer block rounded-md w-full p-2 mb-1"
-                :class="{ 'bg-blue-100': currentItem == list[index] }" @click="selectItem(n)">{{
+                :class="{ 'bg-blue-100 font-bold text-blue-500': currentItem == list[index] }" @click="selectItem(n)">{{
                   (index + 1) }}.{{ n.title }}</a>
             </div>
           </div>
