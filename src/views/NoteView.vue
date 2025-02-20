@@ -92,6 +92,7 @@ async function handleUpdate(config) {
 
 watch(docType, async (newVal, oldVal) => {
   await getCoLtdList(newVal)
+  currentNum[0] = 0;
 });
 
 

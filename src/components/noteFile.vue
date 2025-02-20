@@ -12,7 +12,7 @@ const props = defineProps({
   },
   num: {
     type: Array,
-    default: () => ([0]),
+    required: true, // 必填
   }
 })
 const emit = defineEmits(['addNewItem', 'updateItem']);
@@ -36,7 +36,6 @@ const selectItem = (n) => {
     currentName.value = n?.title;
     content.value = n?.items
   }
-
 }
 // 打開燈箱-新增
 const openAddNewModal = () => {
@@ -128,14 +127,16 @@ watch(currentItem, (newValue, oldValue) => {
 
 watch(list, (newList) => {
   if (newList.length > 0) {
-    currentItem.value = newList[0];
-    selectItem(list[0]);
+    // 維持序號(稍早被編輯過的項目)
+    let index = num[0];
+    currentItem.value = newList[index];
+    selectItem(list[index]);
   }
 }, { deep: true, immediate: true });
 
 watch(num, (newNum) => {
   let index = newNum[0];
-  // 維持顯示完成編輯的那個項目
+  // 維持序號(稍早被編輯過的項目)
   currentItem.value = list[index];
   selectItem(list[index]);
 }, { immediate: true });
