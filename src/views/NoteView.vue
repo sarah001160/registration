@@ -27,7 +27,7 @@ const getCoLtdList = async (docType) => {
     coLtdList.push(...Object.values(result)); // vue 可偵測到變化
   } else if (docType == 'ltd') {
     ltdList.length = 0;
-    const result = await getCoLtdRequiredFiles(docType); // 指定文件 coLtd
+    const result = await getCoLtdRequiredFiles(docType); // 指定文件 ltd
     ltdList.push(...Object.values(result))
     console.log(ltdList)
   }
@@ -102,19 +102,10 @@ onMounted(async () => {
           </a>
         </div>
       </div>
-
-      <template v-if="coLtdList.length">
-        <noteFile v-if="docType == 'coLtd'" :list="coLtdList" :doc="'coLtd'" @addNewItem="handleAdd"
-          @updateItem="handleUpdate" />
-      </template>
-      <template v-if="ltdList.length !== 0 || docType == 'ltd'">
-        <noteFile v-if="docType == 'ltd'" :list="ltdList" :doc="'ltd'" @addNewItem="handleAdd"
-          @updateItem="handleUpdate" />
-      </template>
-
-
-
-
+      <noteFile v-if="docType == 'coLtd'" :list="coLtdList" :doc="'coLtd'" @addNewItem="handleAdd"
+        @updateItem="handleUpdate" />
+      <noteFile v-else-if="docType == 'ltd'" :list="ltdList" :doc="'ltd'" @addNewItem="handleAdd"
+        @updateItem="handleUpdate" />
     </div>
   </div>
 </template>

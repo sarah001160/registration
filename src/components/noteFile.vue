@@ -27,9 +27,12 @@ const modalTitle = ref(''); // 標題
 let modalContent = ref([]); // 內容
 
 const selectItem = (n) => {
-  currentItem.value = n;
-  currentName.value = n?.title;
-  content.value = n?.items
+  if (n) {
+    currentItem.value = n;
+    currentName.value = n?.title;
+    content.value = n?.items
+  }
+
 }
 // 打開燈箱-新增
 const openAddNewModal = () => {
@@ -92,6 +95,9 @@ const updateEdit = async () => {
   }
   // 參數傳出去
   emit('updateItem', config)
+  mode.value = 'read'
+  selectItem(config.para)
+
 }
 // 取消更新
 const cancelEdit = () => {
@@ -115,6 +121,14 @@ watch(currentItem, (newValue, oldValue) => {
     mode.value = 'read';
   }
 })
+
+watch(list, (newList) => {
+  if (newList.length > 0) {
+    currentItem.value = newList[0];
+    selectItem(list[0]);
+  }
+}, { deep: true, immediate: true });
+
 onMounted(() => {
   selectItem(list[0]);
   currentItem.value = list[0]
@@ -147,7 +161,7 @@ onMounted(() => {
       <div v-if="mode == 'read'" class="col-span-9 p-4 border rounded-md">
         <div class="flex items-center gap-2 p-2">
           <h3 class="font-bold flex-1">{{ currentName }}</h3>
-          <div class="flex-0">
+          <div class="flex-0" v-if="currentItem">
             <div class="tooltip tooltip-primary mr-2" data-tip="複製">
               <button class="btn p-1.5 w-10 h-10">
                 <i class="ri-file-copy-2-line"></i>
