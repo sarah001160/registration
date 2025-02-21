@@ -17,7 +17,6 @@ const getAllDocsTest02 = async () => {
   const result = await getAllDocFrTest02();
   allDocsList.push(...result);
   isLoading.value = false;
-  console.log('所有文件', allDocsList);
 }
 
 const getFood = async () => {
