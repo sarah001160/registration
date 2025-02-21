@@ -25,7 +25,6 @@ const getFood = async () => {
   foodList.length = 0;
   const result = await getDocFood();
   foodList.push(...result);
-  console.log('food', foodList)
   isLoading.value = false;
 }
 

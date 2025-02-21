@@ -1,6 +1,6 @@
 <script setup>
 import {
-  getCoLtdRequiredFiles, editCoLtdRequiredItem,
+  getRequiredFiles, editRequiredItem,
 } from '@/stores/useFireStore';
 import Swal from 'sweetalert2';
 import noteFile from '../components/noteFile.vue';
@@ -15,29 +15,29 @@ const companyType = ref([
     value: 'ltd',
   }
 ]);
-const docType = ref('coLtd'); // coLtd 股份有限公司資料、ltd 有限公司資料
+const docType = ref('coLtd'); // coLtd 股份有限公司、ltd 有限公司
 let coLtdList = reactive([]); // coLtd 應備文件取回資料
 let ltdList = reactive([]); // ltd 應備文件取回資料
 let currentNum = reactive([0]);
 // 取得股份有限公司應備文件 coLtd
-const getCoLtdList = async (docType) => {
-  // 給參數:文件名稱，取回特定資料
+const getList = async (docType) => {
+  // 給參數:文件名稱
   if (docType == 'coLtd') {
     coLtdList.length = 0; // clear
-    const result = await getCoLtdRequiredFiles(docType); // 指定文件 coLtd
+    const result = await getRequiredFiles(docType); // 指定文件 coLtd
     coLtdList.push(...Object.values(result)); // vue 可偵測到變化
   } else if (docType == 'ltd') {
     ltdList.length = 0;
-    const result = await getCoLtdRequiredFiles(docType); // 指定文件 ltd
+    const result = await getRequiredFiles(docType); // 指定文件 ltd
     ltdList.push(...Object.values(result))
   }
 }
 // 收元件參數
 // 新增
 async function handleAdd(config) {
-  const result = await editCoLtdRequiredItem({ config });// 新增、編輯用同一個方法
+  const result = await editRequiredItem({ config });// 新增、編輯用同一個方法
   if (result) {
-    await getCoLtdList(docType.value);
+    await getList(docType.value);
     Swal.fire({
       icon: 'success',
       title: '新增成功!',
@@ -63,9 +63,9 @@ async function handleAdd(config) {
 }
 // 編輯
 async function handleUpdate(config) {
-  const result = await editCoLtdRequiredItem({ config });
+  const result = await editRequiredItem({ config });
   if (result) {
-    await getCoLtdList(docType.value);
+    await getList(docType.value);
     Swal.fire({
       icon: 'success',
       title: '編輯成功!',
@@ -91,14 +91,14 @@ async function handleUpdate(config) {
 }
 
 watch(docType, async (newVal, oldVal) => {
-  await getCoLtdList(newVal)
+  await getList(newVal)
   currentNum[0] = 0;
 });
 
 
 // 在組件掛載後讀取資料
 onMounted(async () => {
-  await getCoLtdList(docType.value); // 預設:取得應備文件-股份有限公司
+  await getList(docType.value); // 預設:取得應備文件-股份有限公司
   currentNum[0] = 0;
 });
 </script>

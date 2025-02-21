@@ -85,16 +85,15 @@ const getDocFood = async () => {
   }
 }
 
-// get users 集合 / registrationInfo 文件 / coLtd 資料
-// 可能要改成 動態決定取哪張文件 不寫死
-const getCoLtdRequiredFiles = async (docName) => {
+// get 應備文件列表
+const getRequiredFiles = async (docName) => {
   const docRef = doc(db, COLLECTION_USERS.value, docName);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     const data = docSnap.data();
     return data;
   } else {
-    console.log('沒有coLtd文件')
+    console.log('沒有文件')
   }
 }
 
@@ -110,7 +109,7 @@ const addToArray = async ({ para }) => {
   }
 };
 
-const editCoLtdRequiredItem = async ({ config }) => {
+const editRequiredItem = async ({ config }) => {
   const docRef = doc(db, COLLECTION_USERS.value, config.doc);
   try {
     await updateDoc(docRef, {
@@ -144,7 +143,7 @@ const removeFromArray = async (item) => {
 export {
   db, auth, currentUser,
   getAllDocFrTest02, getDocFood, getAllDocFrUsers,
-  getCoLtdRequiredFiles, editCoLtdRequiredItem,
+  getRequiredFiles, editRequiredItem,
   addToArray,
   removeFromArray,
   login, logout,
