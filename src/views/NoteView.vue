@@ -3,7 +3,7 @@ import {
   getRequiredFiles, editRequiredItem,
 } from '@/stores/useFireStore';
 import Swal from 'sweetalert2';
-import noteFile from '../components/noteFile.vue';
+import NoteFile from '../components/NoteFile.vue';
 
 const companyType = ref([
   {
@@ -120,9 +120,9 @@ onMounted(async () => {
           </a>
         </div>
       </div>
-      <noteFile v-if="docType == 'coLtd'" :num="currentNum" :list="coLtdList" :doc="'coLtd'" @addNewItem="handleAdd"
+      <NoteFile v-if="docType == 'coLtd'" :num="currentNum" :list="coLtdList" :doc="'coLtd'" @addNewItem="handleAdd"
         @updateItem="handleUpdate" />
-      <noteFile v-else-if="docType == 'ltd'" :num="currentNum" :list="ltdList" :doc="'ltd'" @addNewItem="handleAdd"
+      <NoteFile v-else-if="docType == 'ltd'" :num="currentNum" :list="ltdList" :doc="'ltd'" @addNewItem="handleAdd"
         @updateItem="handleUpdate" />
     </div>
   </div>
