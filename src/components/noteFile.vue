@@ -115,7 +115,7 @@ const formattedTest = computed({
   },
   // setter
   set(newValue) {
-    modalContent.value = newValue.split('\n').map((item) => item.trim());
+    modalContent.value = newValue.split('\n').map((item) => item.trim()).filter(line => line !== '');
   }
 });
 
