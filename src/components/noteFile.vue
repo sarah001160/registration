@@ -1,5 +1,6 @@
 <script setup>
 import Swal from 'sweetalert2';
+import DOMPurify from 'dompurify';
 
 const props = defineProps({
   list: {
@@ -53,6 +54,8 @@ const addNewItem = async () => {
     });
     return;
   };
+  addNewContent.value = DOMPurify.sanitize(addNewContent.value);
+  addNewTitle.value = DOMPurify.sanitize(addNewTitle.value);
   const timeStamp = Math.floor(new Date() / 1000);
   const tempArr = addNewContent.value?.split('\n').filter(item => item.trim() !== '');
   // 組參數
@@ -92,7 +95,7 @@ const updateEdit = async () => {
     doc: doc, // 文件名稱
     para: {
       id: id,
-      title: modalTitle.value, // 編輯的標題
+      title: DOMPurify.sanitize(modalTitle.value), // 編輯的標題
       items: modalContent.value, // 編輯的內容
     }
   }
@@ -115,6 +118,7 @@ const formattedTest = computed({
   },
   // setter
   set(newValue) {
+    newValue = DOMPurify.sanitize(newValue);
     modalContent.value = newValue.split('\n').map((item) => item.trim()).filter(line => line !== '');
   }
 });
@@ -209,7 +213,6 @@ onMounted(() => {
             <div class="label">
               <span class="label-text font-bold">應備文件<small class="pl-2 text-red-500">*一行一列。按 Enter
                   可換列。</small></span>
-
             </div>
             <textarea rows="16" class="overflow-y-scroll my-1 textarea textarea-bordered  w-full"
               v-model="formattedTest"></textarea>

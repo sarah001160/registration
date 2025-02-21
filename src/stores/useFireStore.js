@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, collection, getDocs, getDoc, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import DOMPurify from "dompurify"; // JS
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -25,8 +27,10 @@ const auth = getAuth();
 const currentUser = ref(null);
 // 登入test 請記得安裝dompurify
 const login = async (email, password) => {
+  const cleanEmail = DOMPurify.sanitize(email);
+  const cleanPwd = DOMPurify.sanitize(password);
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, cleanEmail, cleanPwd);
     const user = userCredential.user;
     return user.emailVerified;
   } catch (error) {
