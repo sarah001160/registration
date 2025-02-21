@@ -44,14 +44,6 @@ async function handleAdd(config) {
       confirmButtonText: '確認',
       confirmButtonColor: '#3B82F6'
     });
-    // 紀錄編輯當下該項目的序號
-    if (docType.value == 'coLtd') {
-      const index = coLtdList.findIndex(item => item.id == config.para.id);
-      currentNum[0] = index;
-    } else if (docType.value == 'ltd') {
-      const index = ltdList.findIndex(item => item.id == config.para.id);
-      currentNum[0] = index;
-    }
   } else {
     Swal.fire({
       icon: 'warning',
@@ -59,6 +51,14 @@ async function handleAdd(config) {
       confirmButtonText: '確認',
       confirmButtonColor: '#3B82F6'
     });
+  }
+  // 紀錄編輯當下該項目的序號
+  if (docType.value == 'coLtd') {
+    const index = coLtdList.findIndex(item => item.id == config.para.id);
+    currentNum[0] = index;
+  } else if (docType.value == 'ltd') {
+    const index = ltdList.findIndex(item => item.id == config.para.id);
+    currentNum[0] = index;
   }
 }
 // 編輯
@@ -72,14 +72,6 @@ async function handleUpdate(config) {
       confirmButtonText: '確認',
       confirmButtonColor: '#3B82F6'
     })
-    // 紀錄編輯當下該項目的序號
-    if (docType.value == 'coLtd') {
-      const index = coLtdList.findIndex(item => item.id == config.para.id);
-      currentNum[0] = index;
-    } else if (docType.value == 'ltd') {
-      const index = ltdList.findIndex(item => item.id == config.para.id);
-      currentNum[0] = index;
-    }
   } else {
     Swal.fire({
       icon: 'warning',
@@ -87,6 +79,14 @@ async function handleUpdate(config) {
       confirmButtonText: '確認',
       confirmButtonColor: '#3B82F6'
     });
+  }
+  // 紀錄編輯當下該項目的序號
+  if (docType.value == 'coLtd') {
+    const index = coLtdList.findIndex(item => item.id == config.para.id);
+    currentNum[0] = index;
+  } else if (docType.value == 'ltd') {
+    const index = ltdList.findIndex(item => item.id == config.para.id);
+    currentNum[0] = index;
   }
 }
 

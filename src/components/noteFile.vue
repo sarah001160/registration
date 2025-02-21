@@ -99,8 +99,9 @@ const updateEdit = async () => {
   // 參數傳出去
   emit('updateItem', config)
   mode.value = 'read'
-  selectItem(config.para)
-
+  let index = num[0];  // 無論更新成功或失敗都顯示該索引的內容
+  currentItem.value = list[index];
+  selectItem(list[index]);
 }
 // 取消更新
 const cancelEdit = () => {
