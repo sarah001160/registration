@@ -26,10 +26,11 @@ const currentName = ref(''); // 閱讀-當前項目
 // 新增
 const addNewTitle = ref(''); // 標題
 const addNewContent = ref(''); // 內容
-
 // 編輯
 const modalTitle = ref(''); // 標題
 let modalContent = ref([]); // 內容
+//
+const copyArea = ref(null);
 
 const selectItem = (n) => {
   if (n) {
@@ -123,6 +124,29 @@ const formattedTest = computed({
   }
 });
 
+const getRef = () => {
+  if (copyArea) {
+    const txt = copyArea.value.innerHTML;
+    copyTxt(txt);
+  } else {
+    console.warn('未找到對應的 DOM 元素');
+  }
+}
+// 複製
+const copyTxt = (html) => {
+  try {
+    navigator.clipboard.write([
+      new ClipboardItem({
+        'text/html': new Blob([html], { type: 'text/html' }), // 可貼在word、email
+        'text/plain': new Blob([html], { type: 'text/plain' }) // 可貼在記事本(純文字)
+      })
+    ]);
+
+  } catch (error) {
+    alert('無法複製文本：' + error.message);
+  }
+}
+
 watch(currentItem, (newValue, oldValue) => {
   // 防呆:編輯中切換其他項目，強制變成閱讀模式
   if (newValue !== oldValue) {
@@ -180,7 +204,7 @@ onMounted(() => {
           <h3 class="font-bold flex-1">{{ currentName }}</h3>
           <div class="flex-0" v-if="currentItem">
             <div class="tooltip tooltip-primary mr-2" data-tip="複製">
-              <button class="btn p-1.5 w-10 h-10">
+              <button class="btn p-1.5 w-10 h-10" @click="getRef">
                 <i class="ri-file-copy-2-line"></i>
               </button>
             </div>
@@ -193,7 +217,7 @@ onMounted(() => {
         </div>
         <div class="p-2" v-if="currentItem && currentItem.items">
           <div>
-            <ol class="list-disc pl-6">
+            <ol class="list-disc pl-6" ref="copyArea">
               <li class="py-1" v-for="item in content">{{ item }}</li>
             </ol>
           </div>
