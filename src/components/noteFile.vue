@@ -41,6 +41,8 @@ const selectItem = (n) => {
 }
 // 打開燈箱-新增
 const openAddNewModal = () => {
+  addNewTitle.value = "";
+  addNewContent.value = "";
   add_modal.showModal();
 }
 // 送出新增-emit傳出去
