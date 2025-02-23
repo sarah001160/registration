@@ -9,7 +9,7 @@ const handleLogout = async () => {
 </script>
 <template>
   <div class="bg-gray-100">
-    <div class="navbar max-w-7xl mx-auto">
+    <div class="navbar w-full lg:max-w-7xl lg:mx-auto">
       <div class="flex-none">
         <div class="drawer">
           <input id="my-drawer" type="checkbox" class="drawer-toggle" />
@@ -47,7 +47,7 @@ const handleLogout = async () => {
           <RouterLink to="/login">登入</RouterLink>
         </button>
         <div v-else class="flex gap-2 items-center">
-          <small>您好，{{ currentUser.email }}</small>
+          <small class="hidden lg:block">您好，{{ currentUser.email }}</small>
           <button @click="handleLogout" class="px-1 btn btn-square btn-ghost">
             登出
           </button>

@@ -17,9 +17,8 @@ const loginSubmit = async () => {
       confirmButtonColor: '#3B82F6'
     });
     // 跳轉
-    await router.push({ name: 'data' })
+    await router.push({ name: 'note' })
   } else {
-    // alert Email或密碼錯誤
     Swal.fire({
       icon: 'warning',
       title: '請確認 Email 或密碼是否正確',

@@ -129,7 +129,6 @@ watch(docType, async (newVal, oldVal) => {
   currentNum[0] = 0;
 });
 
-
 // 在組件掛載後讀取資料
 onMounted(async () => {
   await getList(docType.value); // 預設:取得應備文件-股份有限公司
@@ -139,7 +138,7 @@ onMounted(async () => {
 <template>
   <div>
     <div class="p-4">
-      <div class="max-w-7xl mx-auto p-4 bg-gray-100 flex justify-start items-center rounded-md mb-2">
+      <div class="w-full lg:max-w-7xl mx-auto p-4 bg-gray-100 flex justify-start items-center rounded-md mb-2">
         <div class="flex-1 flex justify-start items-center">
           <h1 class="text-lg font-bold mr-2">公司登記應備文件</h1>
           <select class="select select-bordered w-fit mr-2" v-model="docType">

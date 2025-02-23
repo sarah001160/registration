@@ -193,9 +193,9 @@ onMounted(() => {
 </script>
 <template>
   <div class="p-4">
-    <div class="max-w-7xl mx-auto grid grid-cols-12 gap-4 h-auto">
+    <div class="w-full lg:max-w-7xl mx-auto grid grid-cols-12 gap-4 h-auto">
       <!--左區-->
-      <div class="col-span-3 bg-gray-100 border rounded-md px-2 max-h-screen">
+      <div class="col-span-12 lg:col-span-3 bg-gray-100 border rounded-md px-2 max-h-screen">
         <div class="flex items-end w-full p-3 pl-4 justify-between border-b-2">
           <small class="block text-grey-100">項目({{ list.length }})</small>
           <a href="#" @click.prevent="openAddNewModal"
@@ -215,10 +215,10 @@ onMounted(() => {
       </div>
       <!-- 右側區塊 -->
       <!-- 閱讀模式 -->
-      <div v-if="mode == 'read'" class="col-span-9 p-4 border rounded-md">
-        <div class="flex items-center gap-2 p-2">
-          <h3 class="font-bold flex-1" v-if="list.length > 0">{{ currentName }}</h3>
-          <div class="flex-0" v-if="list.length > 0 && currentItem">
+      <div v-if="mode == 'read'" class="col-span-12 lg:col-span-9 p-4 border rounded-md">
+        <div class="flex flex-col lg:flex-row items-center gap-2 p-2">
+          <h3 class="font-bold lg:flex-1" v-if="list.length > 0">{{ currentName }}</h3>
+          <div class="lg:flex-0" v-if="list.length > 0 && currentItem">
             <div class="tooltip tooltip-primary mr-2" :data-tip="toolTipMsg">
               <button class="btn p-1.5 w-10 h-10" @click="getRef">
                 <i class="ri-file-copy-2-line"></i>
@@ -245,7 +245,7 @@ onMounted(() => {
         </div>
       </div>
       <!-- 編輯模式-->
-      <div v-else-if="mode == 'edit'" class="col-span-9 p-4 border rounded-md">
+      <div v-else-if="mode == 'edit'" class="col-span-12 lg:col-span-9 p-4 border rounded-md">
         <h3 class="text-lg font-bold">編輯</h3>
         <div>
           <label class="form-control w-full">
