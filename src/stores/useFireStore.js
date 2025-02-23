@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, getDocs, getDoc, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, getDoc, doc, updateDoc, arrayUnion, arrayRemove, deleteField } from 'firebase/firestore';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import DOMPurify from "dompurify"; // JS
 
@@ -20,12 +20,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // 獲取 Firestore 實例
 const db = getFirestore(app);
-const COLLECTION_TEST02 = ref('test02');
-const DOCUMENT_FOOD = ref('food'); // test02集合內的文件
-const COLLECTION_USERS = ref('users');
+const COLLECTION_TEST02 = 'test02';
+const DOCUMENT_FOOD = 'food'; // test02集合內的文件
+const COLLECTION_USERS = 'users';
 const auth = getAuth();
-const currentUser = ref(null);
-// 登入test 請記得安裝dompurify
+let currentUser = ref(null); // 使 Vue 可以偵測變化
+// 登入
 const login = async (email, password) => {
   const cleanEmail = DOMPurify.sanitize(email);
   const cleanPwd = DOMPurify.sanitize(password);
@@ -56,12 +56,13 @@ onAuthStateChanged(auth, (user) => {
   } else {
     currentUser.value = null;
   }
+
 });
 
 // 讀取 test02 集合內所有文件
 const getAllDocFrTest02 = async () => {
   const data = [];
-  const querySnapshot = await getDocs(collection(db, COLLECTION_TEST02.value));
+  const querySnapshot = await getDocs(collection(db, COLLECTION_TEST02));
   querySnapshot.forEach((doc) => {
     data.push(doc.data());
   });
@@ -70,7 +71,7 @@ const getAllDocFrTest02 = async () => {
 
 const getAllDocFrUsers = async () => {
   const data = [];
-  const querySnapshot = await getDocs(collection(db, COLLECTION_USERS.value));
+  const querySnapshot = await getDocs(collection(db, COLLECTION_USERS));
   querySnapshot.forEach((doc) => {
     data.push(doc.data());
   })
@@ -79,7 +80,7 @@ const getAllDocFrUsers = async () => {
 
 // 讀取特定文件（text02 集合內的 "food" 文件）
 const getDocFood = async () => {
-  const docRef = doc(db, COLLECTION_TEST02.value, DOCUMENT_FOOD.value)
+  const docRef = doc(db, COLLECTION_TEST02, DOCUMENT_FOOD)
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     const data = docSnap.data().array;
@@ -91,7 +92,7 @@ const getDocFood = async () => {
 
 // get 應備文件列表
 const getRequiredFiles = async (docName) => {
-  const docRef = doc(db, COLLECTION_USERS.value, docName);
+  const docRef = doc(db, COLLECTION_USERS, docName);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     const data = docSnap.data();
@@ -102,7 +103,7 @@ const getRequiredFiles = async (docName) => {
 }
 
 const addToArray = async ({ para }) => {
-  const docRef = doc(db, COLLECTION_TEST02.value, DOCUMENT_FOOD.value);
+  const docRef = doc(db, COLLECTION_TEST02, DOCUMENT_FOOD);
   try {
     await updateDoc(docRef, {
       array: arrayUnion(para),
@@ -113,8 +114,9 @@ const addToArray = async ({ para }) => {
   }
 };
 
+// 新增或編輯
 const editRequiredItem = async ({ config }) => {
-  const docRef = doc(db, COLLECTION_USERS.value, config.doc);
+  const docRef = doc(db, COLLECTION_USERS, config.doc);
   try {
     await updateDoc(docRef, {
       [config.para.id]: config.para // 屬性:值
@@ -130,7 +132,7 @@ const editRequiredItem = async ({ config }) => {
 // 測試移除欄位array內的資料，但不會檢查是否已經移除過了 test 待研究
 const removeFromArray = async (item) => {
   console.log(item);
-  const docRef = doc(db, COLLECTION_TEST02.value, DOCUMENT_FOOD.value); //指定文件路徑
+  const docRef = doc(db, COLLECTION_TEST02, DOCUMENT_FOOD); //指定文件路徑
   const docSnap = await getDoc(docRef);
   console.log('db, "test02", "food"是否存在?', docSnap.exists());
   try {
@@ -144,10 +146,25 @@ const removeFromArray = async (item) => {
   }
 }
 
+// 刪除應備文件
+const removeRequiredItem = async ({ config }) => {
+  const docRef = doc(db, COLLECTION_USERS, config.doc);
+  try {
+    await updateDoc(docRef, {
+      [config.para.id]: deleteField(), // 被移除的「欄位」名稱
+    });
+    console.log('已刪除');
+    return true;
+  } catch (e) {
+    console.error('error message', e)
+    return false;
+  }
+}
+
 export {
   db, auth, currentUser,
   getAllDocFrTest02, getDocFood, getAllDocFrUsers,
-  getRequiredFiles, editRequiredItem,
+  getRequiredFiles, editRequiredItem, removeRequiredItem,
   addToArray,
   removeFromArray,
   login, logout,

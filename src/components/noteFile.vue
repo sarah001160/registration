@@ -16,7 +16,7 @@ const props = defineProps({
     required: true, // 必填
   }
 })
-const emit = defineEmits(['addNewItem', 'updateItem']);
+const emit = defineEmits(['addNewItem', 'updateItem', 'deleteItem']);
 
 const { list, doc, num } = props;
 const mode = ref('read'); // read 閱讀、edit 編輯
@@ -31,6 +31,7 @@ const modalTitle = ref(''); // 標題
 let modalContent = ref([]); // 內容
 //
 const copyArea = ref(null);
+const toolTipMsg = ref('複製');
 
 const selectItem = (n) => {
   if (n) {
@@ -143,10 +144,23 @@ const copyTxt = (html) => {
         'text/plain': new Blob([html], { type: 'text/plain' }) // 可貼在記事本(純文字)
       })
     ]);
-
+    toolTipMsg.value = '已複製!'
   } catch (error) {
     alert('無法複製文本：' + error.message);
   }
+  setTimeout(() => {
+    toolTipMsg.value = '複製'
+  }, 500)
+}
+
+// 刪除
+const handleDelete = () => {
+  const config = {
+    doc: doc,
+    para: currentItem.value,
+  }
+  // 參數傳出去
+  emit('deleteItem', config);
 }
 
 watch(currentItem, (newValue, oldValue) => {
@@ -203,21 +217,26 @@ onMounted(() => {
       <!-- 閱讀模式 -->
       <div v-if="mode == 'read'" class="col-span-9 p-4 border rounded-md">
         <div class="flex items-center gap-2 p-2">
-          <h3 class="font-bold flex-1">{{ currentName }}</h3>
-          <div class="flex-0" v-if="currentItem">
-            <div class="tooltip tooltip-primary mr-2" data-tip="複製">
+          <h3 class="font-bold flex-1" v-if="list.length > 0">{{ currentName }}</h3>
+          <div class="flex-0" v-if="list.length > 0 && currentItem">
+            <div class="tooltip tooltip-primary mr-2" :data-tip="toolTipMsg">
               <button class="btn p-1.5 w-10 h-10" @click="getRef">
                 <i class="ri-file-copy-2-line"></i>
               </button>
             </div>
-            <div class="tooltip" data-tip="編輯" @click="handleEdit">
+            <div class="tooltip mr-2" data-tip="編輯" @click="handleEdit">
               <button class="btn p-1.5 w-10 h-10">
                 <i class="ri-edit-2-line"></i>
               </button>
             </div>
+            <div class="tooltip tooltip-error" data-tip="刪除">
+              <button class="btn p-1.5 w-10 h-10 hover:btn-error" @click="handleDelete">
+                <i class=" ri-delete-bin-line"></i>
+              </button>
+            </div>
           </div>
         </div>
-        <div class="p-2" v-if="currentItem && currentItem.items">
+        <div class="p-2" v-if="list.length > 0 && currentItem && currentItem.items">
           <div>
             <ol class="list-disc pl-6" ref="copyArea">
               <li class="py-1" v-for="item in content">{{ item }}</li>

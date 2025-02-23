@@ -1,6 +1,6 @@
 <script setup>
 import {
-  getRequiredFiles, editRequiredItem,
+  getRequiredFiles, editRequiredItem, removeRequiredItem,
 } from '@/stores/useFireStore';
 import Swal from 'sweetalert2';
 import NoteFile from '../components/NoteFile.vue';
@@ -89,6 +89,40 @@ async function handleUpdate(config) {
     currentNum[0] = index;
   }
 }
+// 刪除
+async function handleDelete(config) {
+  // swal你確定要刪除嗎?
+  let delResult;
+  Swal.fire({
+    icon: 'warning',
+    title: `刪除「${config.para.title}」?`,
+    showCancelButton: true,
+    confirmButtonText: '刪除',
+    cancelButtonText: '取消',
+    confirmButtonColor: 'red'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      delResult = await removeRequiredItem({ config });
+      if (delResult) {
+        await getList(docType.value);
+        Swal.fire({
+          icon: 'success',
+          title: '刪除成功!',
+          confirmButtonText: '確認',
+          confirmButtonColor: '#3B82F6'
+        });
+        currentNum[0] = 0;
+      } else {
+        Swal.fire({
+          icon: 'warning',
+          title: '刪除失敗!',
+          confirmButtonText: '確認',
+          confirmButtonColor: '#3B82F6'
+        });
+      }
+    }
+  });
+}
 
 watch(docType, async (newVal, oldVal) => {
   await getList(newVal)
@@ -121,9 +155,9 @@ onMounted(async () => {
         </div>
       </div>
       <NoteFile v-if="docType == 'coLtd'" :num="currentNum" :list="coLtdList" :doc="'coLtd'" @addNewItem="handleAdd"
-        @updateItem="handleUpdate" />
+        @updateItem="handleUpdate" @deleteItem="handleDelete" />
       <NoteFile v-else-if="docType == 'ltd'" :num="currentNum" :list="ltdList" :doc="'ltd'" @addNewItem="handleAdd"
-        @updateItem="handleUpdate" />
+        @updateItem="handleUpdate" @deleteItem="handleDelete" />
     </div>
   </div>
 </template>
