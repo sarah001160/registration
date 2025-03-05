@@ -192,16 +192,19 @@ onMounted(() => {
 })
 </script>
 <template>
+
   <div class="p-4">
     <div class="w-full lg:max-w-7xl mx-auto grid grid-cols-12 gap-4 h-auto">
       <!--左區-->
       <div class="col-span-12 lg:col-span-3 bg-gray-100 border rounded-md px-2 max-h-screen">
         <div class="flex items-end w-full p-3 pl-4 justify-between border-b-2">
           <small class="block text-grey-100">項目({{ list.length }})</small>
-          <a href="#" @click.prevent="openAddNewModal"
-            class="block w-6 h-6  text-center rounded-full transition-all hover:bg-blue-200">
-            <i class="ri-add-fill"></i>
-          </a>
+          <div class="tooltip tooltip-primary" data-tip="新增">
+            <a href="#" @click.prevent="openAddNewModal"
+              class="block w-6 h-6  text-center rounded-full transition-all hover:bg-blue-200">
+              <i class="ri-add-fill"></i>
+            </a>
+          </div>
         </div>
         <div class="h-[90vh] overflow-y-auto p-2">
           <div v-for="(n, index) in list" :key="index">
@@ -224,7 +227,7 @@ onMounted(() => {
                 <i class="ri-file-copy-2-line"></i>
               </button>
             </div>
-            <div class="tooltip mr-2" data-tip="編輯" @click="handleEdit">
+            <div class="tooltip tooltip-primary mr-2" data-tip="編輯" @click="handleEdit">
               <button class="btn p-1.5 w-10 h-10">
                 <i class="ri-edit-2-line"></i>
               </button>
