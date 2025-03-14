@@ -20,11 +20,25 @@ const checkAuthState = () => {
 
 // 定義路由
 const routes = [
+  // 前台首頁
   {
     name: 'home',
     path: '/',
     component: HomeView,
   },
+  // 前台登入
+  {
+    name: 'login',
+    path: '/login',
+    component: () => import('@/views/LoginView.vue')
+  },
+  // 前台應備文件
+  {
+    name: 'webnote',
+    path: '/webnote',
+    component: () => import('@/views/WebNoteView.vue')
+  },
+  // 後台
   {
     name: 'data',
     path: '/data',
@@ -37,12 +51,7 @@ const routes = [
     component: () => import('@/views/NoteView.vue'),
     meta: { requiresAuth: true }  // 需驗證 
   },
-  // login 前台
-  {
-    name: 'login',
-    path: '/login',
-    component: () => import('@/views/LoginView.vue')
-  }
+
 ];
 
 // 創建路由實例

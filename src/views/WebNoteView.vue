@@ -137,16 +137,25 @@ onMounted(async () => {
 </script>
 <template>
   <div class="p-4">
-    <div class="w-full bg-primary lg:max-w-7xl mx-auto p-4 flex justify-start items-center rounded-md mb-2">
-      <h1 class="text-lg font-bold mr-2 text-white">公司登記應備文件</h1>
-      <select class="select select-bordered w-fit mr-2" v-model="docType">
-        <option v-for="c in companyType" :value="c.value">{{ c.name }}</option>
-      </select>
+    <div class="w-full lg:max-w-7xl mx-auto p-4 bg-primary flex justify-start items-center rounded-md mb-2">
+      <div class="flex-1 flex justify-start items-center">
+        <h1 class="text-lg font-bold mr-2 text-white">公司登記應備文件</h1>
+        <select class="select select-bordered w-fit mr-2" v-model="docType">
+          <option v-for="c in companyType" :value="c.value">{{ c.name }}</option>
+        </select>
+      </div>
+      <div class="flex-0">
+        <a href="https://gcis.nat.gov.tw/mainNew/subclassNAction.do?method=getFile&pk=54&sub=3" target="_blank"
+          class="flex items-center mb-2 text-blue-500 hover:font-bold">
+          <i class="ri-links-fill"></i>
+          <small>全國商工行政服務入口網</small>
+        </a>
+      </div>
     </div>
-    <NoteFile v-if="docType == 'coLtd'" :num="currentNum" :edit="true" :list="coLtdList" :doc="'coLtd'"
-      @addNewItem="handleAdd" @updateItem="handleUpdate" @deleteItem="handleDelete" />
-    <NoteFile v-else-if="docType == 'ltd'" :num="currentNum" :edit="true" :list="ltdList" :doc="'ltd'"
-      @addNewItem="handleAdd" @updateItem="handleUpdate" @deleteItem="handleDelete" />
+    <NoteFile v-if="docType == 'coLtd'" :num="currentNum" :list="coLtdList" :doc="'coLtd'" @addNewItem="handleAdd"
+      @updateItem="handleUpdate" @deleteItem="handleDelete" />
+    <NoteFile v-else-if="docType == 'ltd'" :num="currentNum" :list="ltdList" :doc="'ltd'" @addNewItem="handleAdd"
+      @updateItem="handleUpdate" @deleteItem="handleDelete" />
   </div>
 </template>
 <style lang="sass" scoped>

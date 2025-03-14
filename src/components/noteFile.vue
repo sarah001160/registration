@@ -3,6 +3,10 @@ import Swal from 'sweetalert2';
 import DOMPurify from 'dompurify';
 
 const props = defineProps({
+  edit: {
+    type: Boolean,
+    default: false,
+  },
   list: {
     type: Array, // 資料
     default: () => ([]),
@@ -15,10 +19,10 @@ const props = defineProps({
     type: Array,
     required: true, // 必填
   }
-})
+});
 const emit = defineEmits(['addNewItem', 'updateItem', 'deleteItem']);
 
-const { list, doc, num } = props;
+const { list, doc, num, edit } = props;
 const mode = ref('read'); // read 閱讀、edit 編輯
 const currentItem = ref({}); // 當前被選擇的項目
 const content = ref(null); // 閱讀-應備文件內容
@@ -138,10 +142,22 @@ const getRef = () => {
 // 複製
 const copyTxt = (html) => {
   try {
+    // 使用 DOMParser 來解析 HTML
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    // 處理 li 轉成文字加上換行符號(純文字)
+    const text = Array.from(doc.querySelectorAll('li'))
+      .map(item => item.textContent.trim()
+      ).join('\n');
+    // 處理 li 轉成文字加上換行符號(html 元素)
+    const dom = Array.from(doc.querySelectorAll('li'))
+      .map(item => item.textContent.trim()
+      ).join('<br/>');
+
     navigator.clipboard.write([
       new ClipboardItem({
-        'text/html': new Blob([html], { type: 'text/html' }), // 可貼在word、email
-        'text/plain': new Blob([html], { type: 'text/plain' }) // 可貼在記事本(純文字)
+        'text/html': new Blob([dom], { type: 'text/html' }), // 可貼在 word、email
+        'text/plain': new Blob([text], { type: 'text/plain' }) // 可貼在記事本(純文字)
       })
     ]);
     toolTipMsg.value = '已複製!'
@@ -196,10 +212,10 @@ onMounted(() => {
   <div class="p-4">
     <div class="w-full lg:max-w-7xl mx-auto grid grid-cols-12 gap-4 h-auto">
       <!--左區-->
-      <div class="col-span-12 lg:col-span-3 bg-gray-100 border rounded-md px-2 max-h-screen">
+      <div class="col-span-12 lg:col-span-3 bg-accent border rounded-md px-2 max-h-screen">
         <div class="flex items-end w-full p-3 pl-4 justify-between border-b-2">
           <small class="block text-grey-100">項目({{ list.length }})</small>
-          <div class="tooltip tooltip-primary" data-tip="新增">
+          <div v-if="edit" class="tooltip tooltip-primary" data-tip="新增">
             <a href="#" @click.prevent="openAddNewModal"
               class="block w-6 h-6  text-center rounded-full transition-all hover:bg-blue-200">
               <i class="ri-add-fill"></i>
@@ -227,12 +243,12 @@ onMounted(() => {
                 <i class="ri-file-copy-2-line"></i>
               </button>
             </div>
-            <div class="tooltip tooltip-primary mr-2" data-tip="編輯" @click="handleEdit">
+            <div v-if="edit" class="tooltip tooltip-primary mr-2" data-tip="編輯" @click="handleEdit">
               <button class="btn p-1.5 w-10 h-10">
                 <i class="ri-edit-2-line"></i>
               </button>
             </div>
-            <div class="tooltip tooltip-error" data-tip="刪除">
+            <div v-if="edit" class="tooltip tooltip-error" data-tip="刪除">
               <button class="btn p-1.5 w-10 h-10 hover:btn-error" @click="handleDelete">
                 <i class=" ri-delete-bin-line"></i>
               </button>

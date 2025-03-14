@@ -8,7 +8,7 @@ const handleLogout = async () => {
 }
 </script>
 <template>
-  <div class="bg-gray-100">
+  <div class="bg-gray-100 relative z-50">
     <div class="navbar w-full lg:max-w-7xl lg:mx-auto">
       <div class="flex-none">
         <div class="drawer">
@@ -27,14 +27,18 @@ const handleLogout = async () => {
             <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
             <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
               <!-- Sidebar content here 側邊 -->
+              <li v-if="!currentUser">
+                <RouterLink to="/webnote" :class="{ 'text-blue-500 rounded-md': $route.path == '/data' }">
+                  ▪️應備文件</RouterLink>
+              </li>
               <li v-if="currentUser">
                 <RouterLink to="/data" :class="{ 'text-blue-500 rounded-md': $route.path == '/data' }">
-                  口袋餐廳</RouterLink>
+                  🔹Data頁面</RouterLink>
               </li>
               <li v-if="currentUser">
-                <RouterLink to="/note" :class="{ 'text-blue-500 rounded-md': $route.path == '/note' }">應備文件</RouterLink>
+                <RouterLink to="/note" :class="{ 'text-blue-500 rounded-md': $route.path == '/note' }">🔹應備文件 (後台編輯)
+                </RouterLink>
               </li>
-
             </ul>
           </div>
         </div>
@@ -52,14 +56,38 @@ const handleLogout = async () => {
             登出
           </button>
           <!--下拉... test 給後台用的-->
-          <button class="btn btn-square btn-ghost">
+          <!-- <button class="btn btn-square btn-ghost">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
               class="inline-block h-5 w-5 stroke-current">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z">
               </path>
             </svg>
-          </button>
+
+          </button> -->
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn m-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                class="inline-block h-5 w-5 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z">
+                </path>
+              </svg>
+            </div>
+            <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-40 p-2 shadow-sm">
+              <li>
+                <a>
+                  <div class="avatar">
+                    <div class="w-10 rounded-full">
+                      <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                    </div>
+                  </div>
+                  我的資料
+                </a>
+              </li>
+
+            </ul>
+          </div>
         </div>
       </div>
     </div>
