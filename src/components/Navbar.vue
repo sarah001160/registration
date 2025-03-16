@@ -32,10 +32,6 @@ const handleLogout = async () => {
                   ▪️應備文件</RouterLink>
               </li>
               <li v-if="currentUser">
-                <RouterLink to="/data" :class="{ 'text-blue-500 rounded-md': $route.path == '/data' }">
-                  🔹Data頁面</RouterLink>
-              </li>
-              <li v-if="currentUser">
                 <RouterLink to="/note" :class="{ 'text-blue-500 rounded-md': $route.path == '/note' }">🔹應備文件 (後台編輯)
                 </RouterLink>
               </li>
@@ -66,14 +62,14 @@ const handleLogout = async () => {
             </div>
             <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-40 p-2 shadow-sm">
               <li>
-                <a>
+                <RouterLink to="/account">
                   <div class="avatar">
                     <div class="w-10 rounded-full">
                       <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
                     </div>
                   </div>
                   我的資料
-                </a>
+                </RouterLink>
               </li>
 
             </ul>

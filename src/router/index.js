@@ -40,15 +40,15 @@ const routes = [
   },
   // 後台
   {
-    name: 'data',
-    path: '/data',
-    component: () => import('@/views/DataView.vue'),
-    meta: { requiresAuth: true }  // 需驗證 
-  },
-  {
     name: 'note',
     path: '/note',
     component: () => import('@/views/NoteView.vue'),
+    meta: { requiresAuth: true }  // 需驗證 
+  },
+  {
+    name: 'account',
+    path: '/account',
+    component: () => import('@/views/AccountView.vue'),
     meta: { requiresAuth: true }  // 需驗證 
   },
 

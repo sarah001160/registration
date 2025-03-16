@@ -185,7 +185,7 @@ const openMap = (address) => {
 <template>
   <div class="p-2">
     <div class="w-full lg:max-w-7xl mx-auto">
-      <div class="h-[180px] rounded-md mb-4 flex justify-center items-center bg-cover bg-left-top"
+      <div class="h-40 rounded-md mb-4 flex justify-center items-center bg-cover bg-center bg-no-repeat"
         :style="{ backgroundImage: `url(${Img})` }">
         <h1 class="text-2xl font-bold">辦理公司登記常用之連結</h1>
       </div>
