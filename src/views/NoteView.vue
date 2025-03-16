@@ -3,7 +3,7 @@ import {
   getRequiredFiles, editRequiredItem, removeRequiredItem,
 } from '@/stores/useFireStore';
 import Swal from 'sweetalert2';
-import NoteFile from '../components/NoteFile.vue';
+import NoteFile from '@/components/NoteFile.vue';
 
 const companyType = ref([
   {
