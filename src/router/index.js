@@ -33,11 +33,11 @@ const routes = [
     component: () => import('@/views/LoginView.vue')
   },
   // 前台應備文件
-  {
-    name: 'webnote',
-    path: '/webnote',
-    component: () => import('@/views/WebNoteView.vue')
-  },
+  // {
+  //   name: 'webnote',
+  //   path: '/webnote',
+  //   component: () => import('@/views/WebNoteView.vue')
+  // },
   // 後台
   {
     name: 'note',
