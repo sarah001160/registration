@@ -217,12 +217,12 @@ onMounted(() => {
           <small class="block text-grey-100">項目({{ list.length }})</small>
           <div v-if="edit" class="tooltip tooltip-primary" data-tip="新增">
             <a href="#" @click.prevent="openAddNewModal"
-              class="block w-6 h-6  text-center rounded-full transition-all hover:bg-blue-200">
+              class="block w-6 h-6 text-center rounded-full transition-all hover:bg-blue-200">
               <i class="ri-add-fill"></i>
             </a>
           </div>
         </div>
-        <div class="h-[90vh] overflow-y-auto p-2">
+        <div class="h-[30vh] lg:h-[90vh] overflow-y-auto p-2">
           <div v-for="(n, index) in list" :key="index">
             <div class=" hover:text-blue-500 text-sm">
               <a class="cursor-pointer block rounded-md w-full p-2 mb-1"

@@ -3,7 +3,7 @@ import {
   getRequiredFiles, editRequiredItem, removeRequiredItem,
 } from '@/stores/useFireStore';
 import Swal from 'sweetalert2';
-import NoteFile from '../components/NoteFile.vue';
+import NoteFile from '@/components/NoteFile.vue';
 
 const companyType = ref([
   {
@@ -137,8 +137,7 @@ onMounted(async () => {
 </script>
 <template>
   <div class="p-4">
-    <div
-      class="w-full bg-gradient-to-r from-gray-700 to-blue-200 lg:max-w-7xl mx-auto p-4 flex justify-start items-center rounded-md mb-2">
+    <div class="w-full bg-primary lg:max-w-7xl mx-auto p-4 flex justify-start items-center rounded-md mb-2">
       <h1 class="text-lg font-bold mr-2 text-white">公司登記應備文件</h1>
       <select class="select select-bordered w-fit mr-2" v-model="docType">
         <option v-for="c in companyType" :value="c.value">{{ c.name }}</option>
