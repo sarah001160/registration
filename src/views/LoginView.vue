@@ -7,6 +7,7 @@ const router = useRouter(); // 建立 router 實例
 const email = ref('');
 const pwd = ref('');
 let isPwd = ref(true); // true 密碼、false 文字
+const toolTipMsg = ref('測試用之 Email、密碼，請詢問 sarah001160@gmail.com');
 const loginSubmit = async () => {
   const result = await login(email.value, pwd.value);
   if (result) {
@@ -34,9 +35,9 @@ const togglePwd = () => {
 </script>
 <template>
   <div class="max-w-7xl mx-auto">
-    <section class="grid grid-cols-12 rounded-md h-0 lg:h-full bg-gray-50">
+    <section class="grid grid-cols-12 rounded-md h-auto bg-gray-50">
       <!--左側-->
-      <div class="col-span-12 lg:col-span-7 lg:p-2 rounded-md h-[20vh] md:h-[90vh] rounded-r-md overflow-hidden">
+      <div class="col-span-12 lg:col-span-7 lg:p-2 h-[20vh] lg:h-[80vh] rounded-md overflow-hidden">
         <img :src="loginImg" alt="Sample Image" loading="lazy"
           class="responsive-img w-full h-full object-cover rounded-md" />
       </div>
@@ -72,6 +73,12 @@ const togglePwd = () => {
               </label>
             </label>
             <button class="mt-8 btn btn-wide  btn-outline btn-primary" @click="loginSubmit">登入</button>
+            <br />
+            <small class="text-red-500 text-center w-full block p-2.5">目前未開放註冊
+              <div class="tooltip tooltip-bottom mr-2" :data-tip="toolTipMsg">
+                <i class="ri-information-line mx-1"></i>
+              </div>
+            </small>
           </div>
         </div>
       </div>

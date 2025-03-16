@@ -1,7 +1,8 @@
 <script setup>
+import Img from '@/assets/bgp.png';
 const linkQuery = ref('');// 關鍵字搜尋
 
-//test
+// 常用連結
 const links = reactive([
   {
     name: '全國商工行政服務入口網',
@@ -88,7 +89,7 @@ const links = reactive([
     url: 'https://gcis.nat.gov.tw/elaw/lawDtlAction.do?method=viewLaw&pk=19',
   }
 ])
-//test
+// 轄區主管機關
 const authortyList = reactive([
   {
     unitName: '經濟部商業發展署',
@@ -183,9 +184,10 @@ const openMap = (address) => {
 </script>
 <template>
   <div class="p-2">
-    <div class="w-full lg:max-w-7xl mx-auto relative">
-      <div class="titleArea h-40 bg-primary rounded-md mb-4 flex justify-center items-center">
-        <h1 class="text-2xl font-bold text-white">辦理公司登記常用之連結</h1>
+    <div class="w-full lg:max-w-7xl mx-auto">
+      <div class="h-[180px] rounded-md mb-4 flex justify-center items-center bg-cover bg-left-top"
+        :style="{ backgroundImage: `url(${Img})` }">
+        <h1 class="text-2xl font-bold">辦理公司登記常用之連結</h1>
       </div>
       <!-- 常用連結區塊 -->
       <section class="p-8 mb-10 rounded-md overflow-y-auto bg-accent">
@@ -213,7 +215,7 @@ const openMap = (address) => {
           <h2 class="md:flex-1 text-xl text-primary font-bold">👉 受理公司登記之服務機關 </h2>
           <p class="md:text-right">資料來源:
             <a href="https://serv.gcis.nat.gov.tw/crm/faqAction.do?method=faqDetlDetl&id=560"
-              class="text-blue-500 hover:text-blue-500 hover:underline" target="_blank">
+              class="text-blue-500 hover:text-warning hover:underline" target="_blank">
               全國商工服務行政入口網
             </a>
           </p>
@@ -253,6 +255,3 @@ const openMap = (address) => {
     </div>
   </div>
 </template>
-<style lang="sass" scoped>
-
-</style>

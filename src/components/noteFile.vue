@@ -269,20 +269,20 @@ onMounted(() => {
         <div>
           <label class="form-control w-full">
             <div class="label">
-              <span class="label-text font-bold">標題<small class="pl-2 text-red-500">*必填</small></span>
+              <span class="label-text font-bold text-gray-600">標題<small class="pl-2 text-red-500">*必填</small></span>
             </div>
             <input type="text" v-model="modalTitle" class="input input-bordered w-full mb-1" />
           </label>
           <label class="form-control w-full">
             <div class="label">
-              <span class="label-text font-bold">應備文件<small class="pl-2 text-red-500">*一行一列。按 Enter
+              <span class="label-text font-bold text-gray-600">應備文件<small class="pl-2 text-red-500">*一行一列。按 Enter
                   可換列。</small></span>
             </div>
             <textarea rows="16" class="overflow-y-scroll my-1 textarea textarea-bordered  w-full"
               v-model="formattedTest"></textarea>
           </label>
         </div>
-        <div class="flex justify-end pt-2">
+        <div class="flex justify-end pt-2 space-x-2">
           <button class="btn" @click="cancelEdit">取消</button>
           <button class="btn btn-primary" @click="updateEdit">更新</button>
         </div>
@@ -300,13 +300,13 @@ onMounted(() => {
         <div>
           <label class="form-control w-full">
             <div class="label">
-              <span class="label-text font-bold">標題</span>
+              <span class="label-text font-bold text-gray-600">標題</span>
             </div>
             <input type="text" v-model="addNewTitle" class="input input-bordered w-full mb-1" />
           </label>
           <label class="form-control w-full">
             <div class="label">
-              <span class="label-text font-bold">應備文件
+              <span class="label-text font-bold text-gray-600">應備文件
                 <small class="pl-2 text-red-500">*一行一列。按 Enter 可換列。</small>
               </span>
             </div>
@@ -316,8 +316,8 @@ onMounted(() => {
         </div>
         <div class="modal-action">
           <form method="dialog">
-            <button class="btn">取消</button>
-            <button class="btn btn-primary" @click="addNewItem">新增</button>
+            <button class="btn mx-1">取消</button>
+            <button class="btn btn-primary mx-1" @click="addNewItem">新增</button>
           </form>
         </div>
       </div>

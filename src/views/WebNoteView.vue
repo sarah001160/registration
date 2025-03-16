@@ -1,3 +1,4 @@
+<!--前台應備文件-->
 <script setup>
 import {
   getRequiredFiles, editRequiredItem, removeRequiredItem,
@@ -68,7 +69,7 @@ async function handleUpdate(config) {
     await getList(docType.value);
     Swal.fire({
       icon: 'success',
-      title: '編輯成功!',
+      title: '更新成功!',
       confirmButtonText: '確認',
       confirmButtonColor: '#3B82F6'
     })
@@ -143,13 +144,6 @@ onMounted(async () => {
         <select class="select select-bordered w-fit mr-2" v-model="docType">
           <option v-for="c in companyType" :value="c.value">{{ c.name }}</option>
         </select>
-      </div>
-      <div class="flex-0">
-        <a href="https://gcis.nat.gov.tw/mainNew/subclassNAction.do?method=getFile&pk=54&sub=3" target="_blank"
-          class="flex items-center mb-2 text-blue-500 hover:font-bold">
-          <i class="ri-links-fill"></i>
-          <small>全國商工行政服務入口網</small>
-        </a>
       </div>
     </div>
     <NoteFile v-if="docType == 'coLtd'" :num="currentNum" :list="coLtdList" :doc="'coLtd'" @addNewItem="handleAdd"
