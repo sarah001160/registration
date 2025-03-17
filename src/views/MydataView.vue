@@ -5,7 +5,7 @@ const userEmail = ref('');
 
 onAuthStateChanged(auth, (user) => {
   userEmail.value = user.email;
-})
+});
 
 </script>
 <template>
@@ -24,7 +24,7 @@ onAuthStateChanged(auth, (user) => {
           <p class="font-bold text-lg mx-1">測試者一號</p>
         </div>
       </div>
-      <div class="p-6 w-90 mx-auto flex flex-col items-center">
+      <div class="p-6 w-90 mx-auto">
         <small class="text-gray-600">電子郵件地址</small>
         <p class="font-bold mx-1">{{ userEmail }}</p>
       </div>
