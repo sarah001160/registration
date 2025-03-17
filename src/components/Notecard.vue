@@ -1,3 +1,4 @@
+<!-- 應備文件元件 -->
 <script setup>
 import Swal from 'sweetalert2';
 import DOMPurify from 'dompurify';

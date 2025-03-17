@@ -1,7 +1,7 @@
 <!--前台應備文件-->
 <script setup>
 import {
-  getRequiredFiles, editRequiredItem, removeRequiredItem,
+  getRequiredFiles,
 } from '@/stores/useFireStore';
 import Notecard from '@/components/Notecard.vue';
 
@@ -32,97 +32,6 @@ const getList = async (docType) => {
     ltdList.push(...Object.values(result))
   }
 }
-// 收元件參數
-// 新增
-async function handleAdd(config) {
-  const result = await editRequiredItem({ config });// 新增、編輯用同一個方法
-  if (result) {
-    await getList(docType.value);
-    Swal.fire({
-      icon: 'success',
-      title: '新增成功!',
-      confirmButtonText: '確認',
-      confirmButtonColor: '#3B82F6'
-    });
-  } else {
-    Swal.fire({
-      icon: 'warning',
-      title: '新增失敗!',
-      confirmButtonText: '確認',
-      confirmButtonColor: '#3B82F6'
-    });
-  }
-  // 紀錄編輯當下該項目的序號
-  if (docType.value == 'coLtd') {
-    const index = coLtdList.findIndex(item => item.id == config.para.id);
-    currentNum[0] = index;
-  } else if (docType.value == 'ltd') {
-    const index = ltdList.findIndex(item => item.id == config.para.id);
-    currentNum[0] = index;
-  }
-}
-// 編輯
-async function handleUpdate(config) {
-  const result = await editRequiredItem({ config });
-  if (result) {
-    await getList(docType.value);
-    Swal.fire({
-      icon: 'success',
-      title: '更新成功!',
-      confirmButtonText: '確認',
-      confirmButtonColor: '#3B82F6'
-    })
-  } else {
-    Swal.fire({
-      icon: 'warning',
-      title: '編輯失敗!',
-      confirmButtonText: '確認',
-      confirmButtonColor: '#3B82F6'
-    });
-  }
-  // 紀錄編輯當下該項目的序號
-  if (docType.value == 'coLtd') {
-    const index = coLtdList.findIndex(item => item.id == config.para.id);
-    currentNum[0] = index;
-  } else if (docType.value == 'ltd') {
-    const index = ltdList.findIndex(item => item.id == config.para.id);
-    currentNum[0] = index;
-  }
-}
-// 刪除
-async function handleDelete(config) {
-  // swal你確定要刪除嗎?
-  let delResult;
-  Swal.fire({
-    icon: 'warning',
-    title: `刪除「${config.para.title}」?`,
-    showCancelButton: true,
-    confirmButtonText: '刪除',
-    cancelButtonText: '取消',
-    confirmButtonColor: 'red'
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      delResult = await removeRequiredItem({ config });
-      if (delResult) {
-        await getList(docType.value);
-        Swal.fire({
-          icon: 'success',
-          title: '刪除成功!',
-          confirmButtonText: '確認',
-          confirmButtonColor: '#3B82F6'
-        });
-        currentNum[0] = 0;
-      } else {
-        Swal.fire({
-          icon: 'warning',
-          title: '刪除失敗!',
-          confirmButtonText: '確認',
-          confirmButtonColor: '#3B82F6'
-        });
-      }
-    }
-  });
-}
 
 watch(docType, async (newVal, oldVal) => {
   await getList(newVal)
@@ -145,10 +54,8 @@ onMounted(async () => {
         </select>
       </div>
     </div>
-    <Notecard v-if="docType == 'coLtd'" :num="currentNum" :edit="false" :list="coLtdList" :doc="'coLtd'"
-      @addNewItem="handleAdd" @updateItem="handleUpdate" @deleteItem="handleDelete" />
-    <Notecard v-else-if="docType == 'ltd'" :num="currentNum" :edit="false" :list="ltdList" :doc="'ltd'"
-      @addNewItem="handleAdd" @updateItem="handleUpdate" @deleteItem="handleDelete" />
+    <Notecard v-if="docType == 'coLtd'" :num="currentNum" :edit="false" :list="coLtdList" :doc="'coLtd'" />
+    <Notecard v-else-if="docType == 'ltd'" :num="currentNum" :edit="false" :list="ltdList" :doc="'ltd'" />
   </div>
 </template>
 <style lang="sass" scoped>
