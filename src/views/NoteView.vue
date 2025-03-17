@@ -3,7 +3,7 @@ import {
   getRequiredFiles, editRequiredItem, removeRequiredItem,
 } from '@/stores/useFireStore';
 import Swal from 'sweetalert2';
-import NoteFile from '@/components/NoteFile.vue';
+import Notecard from '@/components/Notecard.vue';
 
 const companyType = ref([
   {
@@ -143,9 +143,9 @@ onMounted(async () => {
         <option v-for="c in companyType" :value="c.value">{{ c.name }}</option>
       </select>
     </div>
-    <NoteFile v-if="docType == 'coLtd'" :num="currentNum" :edit="true" :list="coLtdList" :doc="'coLtd'"
+    <Notecard v-if="docType == 'coLtd'" :num="currentNum" :edit="true" :list="coLtdList" :doc="'coLtd'"
       @addNewItem="handleAdd" @updateItem="handleUpdate" @deleteItem="handleDelete" />
-    <NoteFile v-else-if="docType == 'ltd'" :num="currentNum" :edit="true" :list="ltdList" :doc="'ltd'"
+    <Notecard v-else-if="docType == 'ltd'" :num="currentNum" :edit="true" :list="ltdList" :doc="'ltd'"
       @addNewItem="handleAdd" @updateItem="handleUpdate" @deleteItem="handleDelete" />
   </div>
 </template>
