@@ -62,7 +62,7 @@ const handleLogout = async () => {
             </div>
             <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-40 p-2 shadow-sm">
               <li>
-                <RouterLink to="/account">
+                <RouterLink to="/mydata">
                   <div class="avatar">
                     <div class="w-10 rounded-full">
                       <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />

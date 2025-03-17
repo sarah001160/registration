@@ -46,9 +46,9 @@ const routes = [
     meta: { requiresAuth: true }  // 需驗證 
   },
   {
-    name: 'account',
-    path: '/account',
-    component: () => import('@/views/AccountView.vue'),
+    name: 'mydata',
+    path: '/mydata',
+    component: () => import('@/views/MydataView.vue'),
     meta: { requiresAuth: true }  // 需驗證 
   },
 
