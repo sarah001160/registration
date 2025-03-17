@@ -23,19 +23,4 @@ export default defineConfig({
       dirs: ['src/components'],
     }),
   ],
-  //try
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return 'vendor';
-          }
-          if (id.includes('components')) {
-            return 'components';
-          }
-        }
-      }
-    }
-  }
 })
