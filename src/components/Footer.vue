@@ -1,4 +1,3 @@
-<script setup></script>
 <template>
   <div class="bg-accent text-gray-600">
     <footer class="lg:max-w-7xl mx-auto p-4 text-center">
@@ -7,7 +6,7 @@
       </div>
       <div class="grid grid-cols-12">
         <div class="col-span-12 lg:col-span-9 text-left">
-          <p class="px-4 md:p-0 md:pl-4">本網頁僅供個人展示使用，有關工商登記實際作業資訊請洽詢業界專業人士，謝謝您。</p>
+          <p class="px-4 md:p-0 md:pl-4">本網頁用途僅作為個人展示使用，有關工商登記實際作業資訊請洽詢業界專業人士，謝謝您。</p>
           <p class="pl-4 mt-2 text-gray-500 text-xs">© 2025 Sarah. All rights reserved.</p>
         </div>
         <div class="col-span-12 pl-4 pt-4 lg:pt-0 lg:pl-0 lg:col-span-3">

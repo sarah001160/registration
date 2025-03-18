@@ -47,7 +47,8 @@ const handleLogout = async () => {
           <RouterLink to="/login">登入</RouterLink>
         </button>
         <div v-else class="flex gap-2 items-center">
-          <small class="hidden lg:block">您好，{{ currentUser.email }}</small>
+          <small v-if="currentUser.displayName" class="hidden lg:block">您好，{{ currentUser.displayName }}</small>
+          <small v-else class="hidden lg:block">您好，{{ currentUser.email }}</small>
           <button @click="handleLogout" class="px-1 btn btn-square btn-ghost">
             登出
           </button>
