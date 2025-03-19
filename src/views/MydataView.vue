@@ -9,7 +9,7 @@ const isEdit = ref(false); // 是否開放編輯
 // 編輯名稱
 function handleEdit() {
   isEdit.value = true;
-  tempUserName.value = useUser.userName; //test
+  tempUserName.value = useUser.userName;
 }
 // 更新名稱、更新到共享狀態 useUserStore
 async function updateEditName() {

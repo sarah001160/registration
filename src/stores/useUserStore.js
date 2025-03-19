@@ -1,4 +1,4 @@
-//test 共享 user 名稱
+// 共享狀態 user 名稱、email、照片、上次登入時間
 import { defineStore } from 'pinia';
 import { onAuthStateChanged, getAuth, updateProfile } from 'firebase/auth';
 import Swal from 'sweetalert2';
