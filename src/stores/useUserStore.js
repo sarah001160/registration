@@ -1,4 +1,4 @@
-// 共享狀態 user 名稱、email、照片、上次登入時間
+// 共享狀態 user 名稱、email、照片、登入時間
 import { defineStore } from 'pinia';
 import { onAuthStateChanged, getAuth, updateProfile } from 'firebase/auth';
 import Swal from 'sweetalert2';
@@ -14,7 +14,7 @@ export const useUserStore = defineStore('user', () => {
       userEmail.value = user.email; // 電子郵件
       userName.value = user.displayName; // 名稱
       userPhoto.value = user.photoURL; // 照片
-      lastSignInTime.value = formateStringtoDate(user.metadata.lastSignInTime); // 上次登入時間
+      lastSignInTime.value = formateStringtoDate(user.metadata.lastSignInTime); // 登入時間
     } else {
       // 登出清空
       userEmail.value = ''; // 電子郵件

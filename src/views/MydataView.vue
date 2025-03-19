@@ -74,7 +74,6 @@ async function updateEditName() {
           <p class="font-bold mx-1">{{ useUser.userEmail }}</p>
         </div>
       </div>
-      <small class="p-4 flex justify-center">上次登入時間: {{ useUser.lastSignInTime }}</small>
     </div>
   </div>
 </template>
