@@ -1,7 +1,9 @@
 <script setup>
 import { currentUser, logout } from '@/stores/useFireStore';
 import { useRouter } from 'vue-router'; // 引入 useRouter
+import { useUserStore } from '@/stores/useUserStore'; // 共享狀態
 const router = useRouter(); // 建立 router 實例
+const useUser = useUserStore(); // 共享狀態
 const handleLogout = async () => {
   await logout();
   await router.push({ name: 'home' });
@@ -47,8 +49,8 @@ const handleLogout = async () => {
           <RouterLink to="/login">登入</RouterLink>
         </button>
         <div v-else class="flex gap-2 items-center">
-          <small v-if="currentUser.displayName" class="hidden lg:block">您好，{{ currentUser.displayName }}</small>
-          <small v-else class="hidden lg:block">您好，{{ currentUser.email }}</small>
+          <small v-if="useUser.userName" class="hidden lg:block">您好，{{ useUser.userName }}</small>
+          <small v-else class="hidden lg:block">您好，{{ useUser.userEmail }}</small>
           <button @click="handleLogout" class="px-1 btn btn-square btn-ghost">
             登出
           </button>
@@ -66,7 +68,8 @@ const handleLogout = async () => {
                 <RouterLink to="/mydata">
                   <div class="avatar">
                     <div class="w-10 rounded-full">
-                      <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                      <img v-if="useUser.userPhoto" :src="useUser.userPhoto" alt="大頭貼">
+                      <img v-else src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
                     </div>
                   </div>
                   我的資料
