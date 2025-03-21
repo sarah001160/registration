@@ -301,7 +301,7 @@ onMounted(() => {
         <div>
           <label class="form-control w-full">
             <div class="label">
-              <span class="label-text font-bold text-gray-600">標題</span>
+              <span class="label-text font-bold text-gray-600">標題<small class="pl-2 text-red-500">*必填</small></span>
             </div>
             <input type="text" v-model="addNewTitle" class="input input-bordered w-full mb-1" />
           </label>
