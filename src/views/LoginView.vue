@@ -7,7 +7,7 @@ const router = useRouter(); // 建立 router 實例
 const email = ref('');
 const pwd = ref('');
 let isPwd = ref(true); // true 密碼、false 文字
-const toolTipMsg = ref('測試用之 Email、密碼，請詢問 sarah001160@gmail.com');
+const toolTipMsg = ref('測試用Email:sarah1120801@gmail.com、密碼123456');
 const loginSubmit = async () => {
   const result = await login(email.value, pwd.value);
   if (result) {

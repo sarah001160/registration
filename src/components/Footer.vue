@@ -14,9 +14,9 @@
             <a href="https://github.com/sarah001160/registration" target="_blank" class="hover:text-warning">
               <i class="text-xl ri-github-fill mx-1"></i>GitHub
             </a>
-            <a href="mailto:sarah00116@gmail.com" class=" hover:text-warning">
-              <i class="text-xl ri-mail-line mx-1"></i>sarah001160@gmail.com
-            </a>
+            <p>
+              <i class="text-xl ri-mail-line mx-1"></i>sarah00116@gmail.com
+            </p>
           </div>
         </div>
       </div>
