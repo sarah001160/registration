@@ -180,6 +180,8 @@ const handleDelete = () => {
   emit('deleteItem', config);
 }
 
+// 監聽
+// 若為【reactive】定義的物件類型，watch 預設為 deep 監聽;若為【ref】定義的物件類型，需特別寫{deep: true}才會深度監聽
 watch(currentItem, (newValue, oldValue) => {
   // 防呆:編輯中切換其他項目，強制變成閱讀模式
   if (newValue !== oldValue) {
@@ -194,14 +196,14 @@ watch(list, (newList) => {
     currentItem.value = newList[index];
     selectItem(list[index]);
   }
-}, { deep: true, immediate: true });
+});
 
 watch(num, (newNum) => {
   let index = newNum[0];
   // 維持序號(稍早被編輯過的項目)
   currentItem.value = list[index];
   selectItem(list[index]);
-}, { immediate: true });
+});
 
 onMounted(() => {
   currentItem.value = list[0]
